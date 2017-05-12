@@ -1,8 +1,6 @@
-html{
-  font-family: 'Indie Flower', cursive, bold;
-}
 body {
-
+  font-family: 'Lato', sans-serif; !important;
+  font-size: 14px !important;
   background-image: url("../img/fondo.jpg");
 }
 footer{
@@ -10,6 +8,15 @@ footer{
   text-align: center;
   font-family: 'Indie Flower', cursive, bold;
 
+}
+.saludo{
+  font-family: 'Lato', sans-serif;
+  font-size: 98px;
+  font-weight: 900 !important;
+  text-align: left;
+}
+.comentario{
+  font-size: 10px;
 }
 .contenido{
   width: 100%;
@@ -32,7 +39,8 @@ footer{
   margin-top:3%;
   font-family: 'League Script', cursive, bold;
   font-size: 98px;
-  /*font-family: 'Indie Flower', cursive;*/
+  font-weight: 900;
+ 
 }
 
 .img-principal{
@@ -85,7 +93,6 @@ footer{
     -moz-box-shadow: 0 0 5px yellow;
     -ms-box-shadow: 0 0 5px yellow;
     box-shadow: 0 0 5px yellow;
-  font-family: 'Indie Flower', cursive, bold;
   margin-top: 2%;
 }
 
@@ -159,7 +166,6 @@ footer{
 
 .contenidoPagPrincipal{
   text-align: center;
-  font-family: verdana;
   display: relative;
   position: absolute;
   top: 50%;
@@ -167,9 +173,9 @@ footer{
   margin-top: -110px;
   margin-left: -95px;
 }
-
-
-
+.enMedio{
+  text-align: center;
+}
 .row{
     margin-left:0px;
     margin-right:0px;
@@ -202,8 +208,8 @@ footer{
 }
 #page-content-wrapper {
     padding-left: 0;
-    margin-left: 0;
-    width: 100%;
+    margin-left: 20px;
+    width: 90%;
     height: auto;
 }
 #wrapper.active {
@@ -211,10 +217,6 @@ footer{
 }
 #wrapper.active #sidebar-wrapper {
     left: 150px;
-}
-
-#page-content-wrapper {
-  width: 100%;
 }
 
 #sidebar_menu li a, .sidebar-nav li a {

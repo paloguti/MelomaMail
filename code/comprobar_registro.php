@@ -31,12 +31,15 @@
             //ya tenemos todos los datos, menos el valor del tipo de musica
             $musica = isset($_POST['tipoMusica'])?$_POST['tipoMusica']:null;
             //ahora tenemos todos en variables. vamos a introducirlos en la base de datos.
-            $db = @mysqli_connect('localhost', 'root', '', 'melomamail');
+            $db = @mysqli_connect('localhost', 'root', '', 'melomamail'); ///PONER UN IF, SI NO SE PUEDE CONECTAR --> CONTACTAR CON ADMIN
             //consulta para insertar el usuario
             $sql = "INSERT INTO usuarios(nombre, password, musica, edad) VALUES ('$usuario', '$passw', '$musica', '$edad')"; 
             $consulta = mysqli_query($db, $sql);
+            
             if($consulta != null){
-              echo "<p> Estás dado de alta </p>";
+              session_start();
+              $_SESSION['log'] = $usuario;
+              header('Location: bandejaEntrada.php');
             }
             else{
               header('Location: register.php?errorRegistro=noalta');//algun dato no es valido y no se ha podido dar de alta

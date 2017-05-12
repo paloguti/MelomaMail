@@ -23,15 +23,15 @@
       $usuario = isset($_POST['user'])?$_POST['user']:null; //Si $_POST['user'] tiene algo, iguala $usuario a eso; sino lo pone a null y dará error
       $pasw= isset($_POST['password'])?$_POST['password']:null; //Si teiene algo iguala, sino a null
       if($pasw!= null AND $usuario != null){ //Si ambos datos han sido introducidos, vamos a buscarlos en la base de datos
-        session_start();
-        $_SESSION['log'] = $usuario;
         $db = @mysqli_connect('localhost', 'root', '', 'melomamail');
         $sql = "SELECT password FROM usuarios where nombre='$usuario'";
         $consulta = mysqli_query($db, $sql);
         if($consulta != null){
           $contrasenia = mysqli_fetch_object($consulta);
           if($contrasenia->password == $pasw){
-              echo "ESTÁS DENTRO!!!";
+              session_start();
+              $_SESSION['log'] = $usuario;
+              header('Location: bandeja.php');
           }
           else{
             header('Location: login.php?errorusuario=noexiste');//echo "El usuario no existe o la contraseña está mal puesta"; //La contraseña está mal puesta

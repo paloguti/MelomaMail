@@ -8,6 +8,7 @@
     <link rel="icon" href="../img/iconoNotaMusical.ico">
 
     <link href="../css/estiloMelomaMail.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 
     <!--PARA LOS GLYPHICONS-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
