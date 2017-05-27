@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-  <?php 
+ <html lang="en">
+  <head>
+
+    <?php 
         include("funciones.php");
         session_start();
         if(!isset($_SESSION['log'])){
           header('Location: ../index.php?nologin=true');
         }
+        else if(isset($_SESSION['admin'])){
+          if($_SESSION['admin'] == "si"){
+            header('Location: bandejaAdmin.php?cotilla=si');
+          }
+        }
         else{
           $usuario = $_SESSION['log'];
+          $correosSinLeer = correosSinLeer($usuario);
         }
-  ?>
-<html lang="en">
-  <head>
+    ?>
+
     <meta charset="utf-8">
     
     <meta name="description" content="Bandeja de entrada para MelomaMail">
@@ -42,11 +50,20 @@
         <ul class="sidebar-nav" id="sidebar">
             <li><a href="" onClick="$('#crearMensaje').modal()" data-toggle="modal">Redactar correo<span class="sub_icon glyphicon glyphicon-pencil"></span></a></li>
             <ul class="sidebar-nav" id="sidebar">
-                <li><a href="bandeja.php?tipo=recibidos">Recibidos<span class="badge">42</span><span class="sub_icon glyphicon glyphicon-envelope"></span></a></li>
-                <li><a href="bandeja.php?tipo=enviados">Enviados<span class="badge">42</span><span class="sub_icon glyphicon glyphicon-send"></span></a></li>
-                <li><a href="bandeja.php?tipo=eliminados">Eliminados<span class="sub_icon glyphicon glyphicon-trash"></span></a></li>
+                <li><a href="bandeja.php?tipo=recibidos">Recibidos<span class="badge-guay badge"> 
+                    <?php 
+                      if($correosSinLeer != null){
+                        echo $correosSinLeer;
+                      }
+                    ?>
+                    </span><span class="sub_icon glyphicon glyphicon-envelope"></span></a></li>
+                <li><a href="bandeja.php?tipo=recPersonales"> > No difundidos</a></li>
+                <li><a href="bandeja.php?tipo=recDifundidos">  > Difundidos</a></li>
+                <li><a href="bandeja.php?tipo=enviados">Enviados<span class="sub_icon glyphicon glyphicon-send"></span></a></li>
+                <li><a href="bandeja.php?tipo=envPersonales">  > No difundidos</a></li>
+                <li><a href="bandeja.php?tipo=envDifundidos">  > Difundidos</a></li>
             </ul>
-          <li><a>Tu perfil<span class="sub_icon glyphicon glyphicon-user"></span></a></li>
+          <li><a href="tusGrupos.php">Tus grupos<span class="sub_icon glyphicon glyphicon-user"></span></a></li>
           <li><a href="salida.php">Salir<span class="sub_icon glyphicon glyphicon-off"></span></a></li>
         </ul>
       </div>
@@ -59,10 +76,26 @@
         <!-- Keep all page content within the page-content inset div! -->
         <div class="page-content inset">
             <div class="row">
-                <div <?php if(isset($_GET["envio"]) && $_GET["envio"]=="bien"){ ?> class="panel panel-success">
-                    <div class="panel-heading respuesta">¡El correo se ha enviado!</div>
-                    <?php }else if(isset($_GET["envio"]) && $_GET["envio"] == "mal"){ ?> class="panel panel-danger"> <div class = "panel-heading respuesta"> No se ha podido enviar el correo, si quiere puede <a href="contactar.php">contactar con el administrador </a></div><?php } else if(isset($_GET["envio"]) && $_GET["envio"]=="fatal"){ ?> class="panel panel-danger"> <div class="panel-heading respuesta">El receptor no era válido, por lo que no se envia el correo</div> <?php } else { ?> > <?php } ?>
-                </div>
+              <div <?php if(isset($_GET["cotilla"]) && $_GET["cotilla"]=='si'){ ?> class="panel panel-warning">
+                  <div class="panel-heading respuesta">¿Está intentando mirar cosas que no le corresponden?</div>
+                  <?php }else{ ?> >
+                  <?php } ?>
+              </div>
+              <div <?php if(isset($_GET["envio"]) && $_GET["envio"]=='bien'){ ?> class="panel panel-success">
+                  <div class="panel-heading respuesta">¡El correo se ha enviado bien!</div>
+                  <?php }else{ ?> > 
+                  <?php } ?>
+              </div>
+              <div <?php if(isset($_GET["envio"]) && $_GET["envio"]=='mal'){ ?> class="panel panel-danger">
+                  <div class="panel-heading respuesta"> No se ha podidio enviar el correo si quiere puede <a href="contactar.php"> contactar con el administrador </a></div>
+                  <?php }else{ ?> > 
+                  <?php } ?>
+              </div>
+              <div <?php if(isset($_GET["envio"]) && $_GET["envio"]=='fatal'){ ?> class="panel panel-danger">
+                  <div class="panel-heading respuesta"> El receptor no es válido, por lo que no se manda el correo (revise el destinatario)</div>
+                  <?php }else{ ?> > 
+                  <?php } ?>
+              </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -74,45 +107,76 @@
                               <h3>
                                   BANDEJA DE
                                   <?php 
-                                      if($tipoBandeja == "recibidos"){
-                                        echo "ENTRADA";
-                                      }
-                                      else if($tipoBandeja == "enviados"){
-                                        echo "ENVIADOS";
-                                      }
-                                      else {
-                                        echo "ELIMINADOS";
+                                      switch($tipoBandeja){
+                                        case "recibidos":
+                                          echo "ENTRADA";
+                                          break;
+                                        case "recDifundidos":
+                                          echo "ENTRADA DE MENSAJES DIFUNDIDOS";
+                                          break;
+                                        case "recPersonales":
+                                          echo "ENTRADA DE MENSAJES PERSONALES";
+                                          break;
+                                        case "enviados":
+                                          echo "ENVIADOS";
+                                          break;
+                                        case "envDifundidos":
+                                          echo "ENVIADOS DE MENSAJES DIFUNDIDOS";
+                                          break;
+                                        case "envPersonales":
+                                          echo "ENVIADOS DE MENSAJES PERSONALES";
+                                          break;
+                                        default: 
+                                          echo "ELIMINADOS";
                                       } 
                                   ?>
                               </h3>
                           </div>
                           <div class="inbox-body">
                               <div class="mail-option">
-                                <div class="chk-all">
-                                    <input type="checkbox" class="mail-checkbox mail-group-checkbox">Todos
-                                </div>
-
                                 <div class="btn-group">
                                   <a
-                                    <?php if($tipoBandeja == "enviados"){
-                                      echo ' href = "bandeja.php?tipo=enviados"';
-                                    }
-                                    else{
-                                      echo 'href= "bandeja.php"';
-                                    }
+                                    <?php 
+                                      switch($tipoBandeja){
+                                        case "recibidos":
+                                          echo ' href = "bandeja.php"';
+                                          break;
+                                        case "recDifundidos":
+                                          echo ' href = "bandeja.php?tipo=recDifundidos"';
+                                          break;
+                                        case "recPersonales":
+                                          echo ' href = "bandeja.php?tipo=recPersonales"';
+                                          break;
+                                        case "enviados":
+                                          echo ' href = "bandeja.php?tipo=enviados"';
+                                          break;
+                                        case "envDifundidos":
+                                          echo ' href = "bandeja.php?tipo=envDifundidos"';
+                                          break;
+                                        case "envPersonales":
+                                          echo ' href = "bandeja.php?tipo=envPersonales"';
+                                          break;
+                                        default: 
+                                          echo ' href = "bandeja.php?tipo=cualquiercosa"';
+                                      } 
                                     ?>
                                   type="button" class="btn mini"> <span class="glyphicon glyphicon-refresh"></span>Actualizar </a>
                                 </div>
                               </div>
                               <table class="table table-inbox table-hover">
                                   <tbody>
-                                      <tr>
-                                        <td class="inbox-small-cells">Marcado</td>
-                                        <td class="view-message  dont-show"> Emisor </td>
-                                        <td class="view-message "> Asunto</td>
+                                      <tr class="color">
+                                        <?php if($tipoBandeja == "enviados" || $tipoBandeja == "envDifundidos" || $tipoBandeja == "envPersonales"){
+                                          echo '<td class="view-message dont-show"> Receptor </td>';
+                                        }
+                                        else {
+                                          echo '<td class="view-message  dont-show"> Emisor </td>';
+                                        } ?>
+                                        <td class="view-message"> Asunto</td>
                                         <td class="view-message  text-right">Fecha</td>
                                       </tr>
                                       <?php cargarBandeja($usuario, $tipoBandeja); ?>
+                                      
                                   </tbody>
                               </table>
                           </div>
@@ -124,11 +188,13 @@
       </div>
     </div> 
 
+    <?php include("footer.html"); ?>
+
     <!--MANDAR UN CORREO -->
     <!-- MODAL PARA ESCRIBIR CORREO -->
 
-    <div class="modal fade" id="crearMensaje" role="dialog">
-        <div class="modal-dialog">
+    <div class="modal fade" id="crearMensaje" tabindex="1" role="dialog" aria-labelledy="myModalLabel">
+        <div class="modal-dialog" role="document">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -144,11 +210,13 @@
                         <p> Para: </p>
                             <input list="usuarios" id="receptor" name="receptor" class="form-control" placeholder="Usuario del destinatario" aria-describedby="basic-addon2">
                                 <datalist id="usuarios">
-                                    <?php obtenerUsuarios(); ?>
+                                    <?php obtenerUsuarios();
+                                          obtenerGrupos($usuario);
+                                    ?>
                                 </datalist>
                         <br>
                         <p>Asunto: </p>
-                            <input type="text" class="form-control" placeholder="Asunto" name="asunto" aria-describedby="basic-addon2" required>
+                            <input type="text" class="form-control" placeholder="Asunto" id="asunto" name="asunto" aria-describedby="basic-addon2" required>
                         <br>
                         <p> Mensaje: </p>
                             <textarea required class="form-control" name="mensaje" rows="3" placeholder="Escriba aquí su mensaje"></textarea>
@@ -160,6 +228,24 @@
             </div>
         </div>
     </div>
+
+    <!--Leer UN CORREO -->
+    <!-- MODAL PARA leer CORREO -->
+
+    <div class="modal fade" id="leerMensaje" tabindex="1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="actualizarVentana()">X</button>
+                    <h4 class="modal-title text-center">Lectura de correo</h4>
+                </div>
+                <div class="modal-body2">
+
+                </div>
+            </div>
+        </div>
+    </div>
   </body>
   <script type="text/javascript">
     $("#menu-toggle").click(function(e) {
@@ -167,7 +253,24 @@
       $("#wrapper").toggleClass("active");
     });
   </script>
+  
+  <script type="text/javascript">
+    function mostrarMensaje(identificador){
+      $.ajax({
 
+        type: "POST",
+        dataType: "html",
+        url: "mensajes.php",
+        data: {"id": identificador},
+        success: function(data, textStatus){
+          $(".modal-body2").html(data);
+        }
+      }).done(function(msg){});
+    }
 
+    function actualizarVentana(){
+      location.reload();
+    }
+  </script>
 
 </html>

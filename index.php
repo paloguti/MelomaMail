@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+
+        <?php 
+          session_start();
+          if(isset($_SESSION['log'])){
+            if(!isset($_SESSION['admin'])){
+              header('Location: bandeja.php');
+            }
+            else if(isset($_SESSION['admin'])=='si'){
+              header('Location: bandejaAdmin.php');
+            }
+          }
+        ?>
         <meta charset="utf-8">
         
         <meta name="description" content="Pagina principal para MelomaMail">
@@ -21,6 +33,13 @@
 
     <body>
         <div class="container">
+            <div class="row">
+                <div <?php if(isset($_GET["nologin"]) && $_GET["nologin"]=='true'){ ?> class="panel panel-warning">
+                  <div class="panel-heading respuesta">Usted no ha iniciado ninguna sesión y no puede acceder a esa página</div>
+                  <?php }else{ ?> >
+                  <?php } ?>
+                </div>
+            </div>
             <h1 class="titulo"> MelomaMail </h1>
             <img src="img/iconoNotaMusical.ico" class="img-principal">
             <div class="enlaces">
@@ -28,10 +47,7 @@
                 <a href="code/register.php"><button type="button" class="botonPrincipal">Registrarse</button></a>
             </div>
         </div>
-        <hr class="separar">
-        <footer>
-            <p class="notas"> Para más información --> <a href="code/informacion.html"> PULSE AQUÍ <span class="glyphicon glyphicon-info-sign"></span></a></p>
-        </footer>
+        <?php include("code/footer.html"); ?>
     </body>
 </html>
 

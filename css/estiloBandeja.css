@@ -1,4 +1,6 @@
-
+.color{
+    background-color: white;
+}
 .mail-box aside {
     display: table-cell;
     float: none;

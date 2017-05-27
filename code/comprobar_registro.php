@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
+    <?php 
+        session_start();
+        if(isset($_SESSION['admin'])){
+          header('Location: bandejaAdmin.php?cotilla=si');
+        }
+        else if(isset($_SESSION['log'])){
+          header('Location: bandeja.php?cotilla=si');
+        }
+    ?>
+
     <meta charset="utf-8">
     
     <meta name="description" content="Pagina de registro para MelomaMail">

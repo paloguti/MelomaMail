@@ -9,6 +9,28 @@ footer{
   font-family: 'Indie Flower', cursive, bold;
 
 }
+.iconosNuevos{
+      width: 34px;
+    margin-top: -15px;
+    margin-right: -9px;
+}
+.modal-body2{
+      position: relative;
+    padding: 15px;
+}
+.inbox-small-cells{
+  text-align: center;
+  width: 10%;
+}
+.badge-guay{
+  margin-left: 10px;
+  width: 30px;
+  display: initial !important;
+  padding-top: 3px;
+  padding-right: 7px;
+  padding-bottom: 3px;
+  padding-left: 7px;
+}
 .saludo{
   font-family: 'Lato', sans-serif;
   font-size: 98px;
@@ -279,9 +301,13 @@ footer{
 
 #main_icon
 {
-    float:right;
-   padding-right: 15px;
-   padding-top:20px;
+  float:right;
+  padding-right: 15px;
+  padding-top:20px;
+}
+.error_icon{
+  float: left;
+  padding-right: 0px;
 }
 .sub_icon
 {
@@ -301,6 +327,22 @@ footer{
   display: inline-block;
 }
 
+/*********************ESTILO ADMIN **************************/
+.card-style {
+    display: block;
+    height: 100px;
+    width: 350px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.bordeado{
+  border: solid;
+  border-width: 2px;
+  padding: 10px;
+}
 @media (max-width:767px) {
 #wrapper {
     padding-left: 70px;

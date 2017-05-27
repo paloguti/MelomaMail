@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  <?php 
+        session_start();
+        if(isset($_SESSION['admin'])){
+          header('Location: bandejaAdmin.php');
+        }
+        else if(isset($_SESSION['log'])){
+          header('Location: bandeja.php');
+        }
+    ?>
     <meta charset="utf-8">
     
     <meta name="description" content="Pagina de login para MelomaMail">
@@ -24,13 +33,19 @@
       $pasw= isset($_POST['password'])?$_POST['password']:null; //Si teiene algo iguala, sino a null
       if($pasw!= null AND $usuario != null){ //Si ambos datos han sido introducidos, vamos a buscarlos en la base de datos
         $db = @mysqli_connect('localhost', 'root', '', 'melomamail');
-        $sql = "SELECT password FROM usuarios where nombre='$usuario'";
+        $sql = "SELECT password,administrador FROM usuarios where nombre='$usuario'";
         $consulta = mysqli_query($db, $sql);
         if($consulta != null){
-          $contrasenia = mysqli_fetch_object($consulta);
-          if($contrasenia->password == $pasw){
+          $datos = mysqli_fetch_object($consulta);
+          if($datos->password == $pasw){
               session_start();
               $_SESSION['log'] = $usuario;
+              if($datos->administrador == '1'){
+                $_SESSION['admin'] = 'si';
+                echo "Eres admin";
+                header('Location:bandejaAdmin.php');
+                return;
+              }
               header('Location: bandeja.php');
           }
           else{
