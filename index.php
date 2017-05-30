@@ -6,10 +6,10 @@
           session_start();
           if(isset($_SESSION['log'])){
             if(!isset($_SESSION['admin'])){
-              header('Location: bandeja.php');
+              header('Location: code/bandeja.php');
             }
             else if(isset($_SESSION['admin'])=='si'){
-              header('Location: bandejaAdmin.php');
+              header('Location: code/bandejaAdmin.php');
             }
           }
         ?>

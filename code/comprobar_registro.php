@@ -3,7 +3,8 @@
   <head>
 
     <?php 
-        session_start();
+        //session_start();
+        include("funciones.php");
         if(isset($_SESSION['admin'])){
           header('Location: bandejaAdmin.php?cotilla=si');
         }
@@ -50,7 +51,8 @@
             if($consulta != null){
               session_start();
               $_SESSION['log'] = $usuario;
-              header('Location: bandejaEntrada.php');
+              insertarEnUnGrupo($usuario, $musica, $edad);
+              header('Location: bandeja.php');
             }
             else{
               header('Location: register.php?errorRegistro=noalta');//algun dato no es valido y no se ha podido dar de alta

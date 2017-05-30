@@ -90,7 +90,7 @@
                                 <div class="media-body">
                                     <h5 class="media-heading">' . $grupos->nombreGrupo . '</h5>
                                     <div class="members pull-left"><small>Numero de miembros:' . $numeroMiembros . '</small></div>';
-                if($accion = 'eliminar'){
+                if($accion == 'eliminar'){
                 	echo 			'<a href="eliminarGrupo.php?grupo=' . $id . '" class="btn btn-sm btn-danger pull-right btn-part">Eliminar grupo </a>';
                 }
                 else{
@@ -335,7 +335,24 @@
         }
         return false;
     }
-
+    function insertarEnUnGrupo($usuario, $musica, $edad){
+        $db = @mysqli_connect('localhost', 'root', '', 'melomamail');
+        $sql = "SELECT id FROM grupos WHERE ((tipoMusica like '$musica') AND (edadMinima <= '$edad') AND (edadMaxima >='$edad'))";
+        $consulta = mysqli_query($db, $sql);
+        if($consulta != null){
+            echo "La consulta no es null";
+            $grupos = mysqli_fetch_object($consulta);
+            while($grupos){
+                echo "entro" . $grupos->id;
+                $numeroGrupo = $grupos->id;
+                echo $usuario . $numeroGrupo;
+                $sql1 = "INSERT INTO componentes VALUES ('$numeroGrupo', '$usuario')";
+                $consulta1 = mysqli_query($db, $sql1);
+                $grupos = mysqli_fetch_object($consulta);
+            }
+        }
+        mysqli_close($db);
+    }
     function rellenarGrupo($nombreGrupo, $edadMinima, $edadMaxima, $tipoMusica){
     	echo "Rellenamos el grupo " . $nombreGrupo . "<br>";
     	$db = mysqli_connect('localhost', 'root', '', 'melomamail');

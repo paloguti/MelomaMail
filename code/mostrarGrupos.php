@@ -46,7 +46,7 @@
             <li><a href="" onClick="$('#crearGrupo').modal()" data-toggle="modal">Crear grupo<span class="sub_icon"><img class="iconosNuevos" src="../img/crearGrupo.png"></span></a></li>
             <li><a href="mostrarGrupos.php">Ver grupos<span class="sub_icon"><img class="iconosNuevos" src="../img/verGrupo.png"></span></a></li>
             <li><a href="mostrarGrupos.php?accion=eliminar">Eliminar grupo<span class="sub_icon"><img class="iconosNuevos" src="../img/eliminarGrupo.png"></span></a></li>
-            <li><a href="crearAdmin.php">Crear admin<span class="sub_icon"><img class="iconosNuevos" src="../img/addAdministrador.png"></span></a></li>
+            <li><a href="" onClick="$('#crearAdmin').modal()" data-toggle="modal">Crear admin<span class="sub_icon"><img class="iconosNuevos" src="../img/addAdministrador.png"></span></a></li>
             <li><a href="salida.php">Salir<span class="sub_icon glyphicon glyphicon-off"></span></a></li>
         </ul>
       </div>
@@ -155,6 +155,44 @@
                         <br>
                             <input type="submit" class="btn btn-default">
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="crearAdmin" tabindex="1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">X</button>
+                    <h4 class="modal-title text-center">Nuevo admin</h4>
+                </div>
+                <div class="modal-body2">
+                    <form class="form-signin" action="crear_admin.php" method="post" name="f1">
+                        
+                        <p class="textosRegistro"> Nombre del nuevo administrador: </p>
+                        <div class="labelDatos">
+                          <span class= "glyphicon glyphicon-user"></span>
+                          <input class="input" type="text" name="admin" placeholder="Nombre de administrador" required>
+                        </div>
+                        <br>
+                        <p class="textosRegistro"> Contraseña: </p>
+                        <div class="labelDatos">
+                          <span class="glyphicon glyphicon-lock"></span>
+                          <input class="input" type="password" id="password1" name="password1" placeholder="Contraseña" required>
+                        </div>
+                        <br>
+                        <p class="textosRegistro"> Repita la contraseña: </p>
+                        <div class="labelDatos">
+                          <span class="glyphicon glyphicon-lock"></span>
+                          <input class="input" type="password" id="password2" name="password2" placeholder="Repita la contraseña" required>
+                          <br>
+                        </div>
+                        <br>
+                        <input class="btn btn-lg btn-warning btn-block" type="submit" value="Dar de alta" id="enviar">
+                      </form>
+
                 </div>
             </div>
         </div>
